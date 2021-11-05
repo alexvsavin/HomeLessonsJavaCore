@@ -95,7 +95,7 @@ public class AccuweatherModel implements WeatherModel {
                 for (int i=0; i<5; i++) {
 
                     String fiveDate = objectMapper.readTree(weatherResponseFive).at("/DailyForecasts").get(i).at("/Date").asText();
-                    String fiveTemperature = objectMapper.readTree(weatherResponseFive).at("/DailyForecasts").get(0).at("/Temperature/Maximum/Value").asText();
+                    String fiveTemperature = objectMapper.readTree(weatherResponseFive).at("/DailyForecasts").get(i).at("/Temperature/Maximum/Value").asText();
                     System.out.println("Погода в городе: " + selectedCity);
                     System.out.println("На дату: " + fiveDate);
                     System.out.println("Температура воздуха: " + fiveTemperature);
