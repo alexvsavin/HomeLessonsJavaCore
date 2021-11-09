@@ -63,8 +63,14 @@ public class AccuweatherModel implements WeatherModel {
                 //String temperature = "10.5";
                 String localDate = objectMapper.readTree(weatherResponse).at("/DailyForecasts").get(0).at("/Date").asText();
                 String temperature = objectMapper.readTree(weatherResponse).at("/DailyForecasts").get(0).at("/Temperature/Maximum/Value").asText();
-                System.out.println("Погода в городе: " + selectedCity);
+
+                String weatherText = objectMapper.readTree(weatherResponse).at("/DailyForecasts").get(0).at("/Day/IconPhrase").asText();
+
+                System.out.println("В городе: " + selectedCity);
                 System.out.println("На дату: " + localDate);
+
+                System.out.println("Ожидается: " + weatherText);
+
                 System.out.println("Температура воздуха: " + temperature);
                 //TODO: сделать человекочитаемый вывод погоды. Выбрать параметры для вывода на свое усмотрение
                 //Например: Погода в городе Москва - 5 градусов по цельсию Expect showers late Monday night
@@ -92,12 +98,19 @@ public class AccuweatherModel implements WeatherModel {
                 String weatherResponseFive = fiveDayForecastResponse.body().string();
                 System.out.println(weatherResponseFive);
 
-                for (int i=0; i<5; i++) {
+
+                for (int i = 0; i < 5; i++) {
 
                     String fiveDate = objectMapper.readTree(weatherResponseFive).at("/DailyForecasts").get(i).at("/Date").asText();
                     String fiveTemperature = objectMapper.readTree(weatherResponseFive).at("/DailyForecasts").get(i).at("/Temperature/Maximum/Value").asText();
-                    System.out.println("Погода в городе: " + selectedCity);
+
+                    String weatherTextFive = objectMapper.readTree(weatherResponseFive).at("/DailyForecasts").get(i).at("/Day/IconPhrase").asText();
+
+                    System.out.println("В городе: " + selectedCity);
                     System.out.println("На дату: " + fiveDate);
+
+                    System.out.println("Ожидается: " + weatherTextFive);
+
                     System.out.println("Температура воздуха: " + fiveTemperature);
                     System.out.println();
                 }
@@ -114,6 +127,16 @@ public class AccuweatherModel implements WeatherModel {
     //public List<Weather> getSavedToDBWeather() {
       //  return dataBaseRepository.getSavedToDBWeather();
     //}
+
+    @Override
+    public void getExit(Period period) {
+        if (period == Period.EXIT) {
+            System.exit(0);
+        }
+
+    }
+
+
 
     private String detectCityKey(String selectCity) throws IOException {
         //http://dataservice.accuweather.com/locations/v1/cities/autocomplete
